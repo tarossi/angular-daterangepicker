@@ -153,11 +153,8 @@ pickerModule.directive 'dateRangePicker', ($compile, $timeout, $parse, dateRange
         else
           x = viewValue.split(opts.locale.separator).map(f)
           # Use startOf/endOf day to comply with how daterangepicker works
-          objValue.startDate = if x[0] then x[0].startOf('day') else null
-          # selected value will always be 999ms off due to:
-          # https://github.com/dangrossman/daterangepicker/issues/1890
-          # can fix by adding .startOf('second') but then initial value will be off by 999ms
-          objValue.endDate = if x[1] then x[1].endOf('day') else null
+          objValue.startDate = if x[0] then x[0] else null
+          objValue.endDate = if x[1] then x[1] else null
       return objValue
 
     modelCtrl.$isEmpty = (val) ->

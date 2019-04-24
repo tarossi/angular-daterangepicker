@@ -158,8 +158,8 @@
               objValue = f(viewValue);
             } else {
               x = viewValue.split(opts.locale.separator).map(f);
-              objValue.startDate = x[0] ? x[0].startOf('day') : null;
-              objValue.endDate = x[1] ? x[1].endOf('day') : null;
+              objValue.startDate = x[0] ? x[0] : null;
+              objValue.endDate = x[1] ? x[1] : null;
             }
           }
           return objValue;
@@ -172,11 +172,13 @@
           el.daterangepicker(angular.extend(opts, {
             autoUpdateInput: false
           }), function(startDate, endDate, label) {
-            return $scope.$apply(function() {
-              if (typeof opts.changeCallback === "function") {
-                return opts.changeCallback.apply(this, arguments);
-              }
-            });
+            return $scope.$apply((function(_this) {
+              return function() {
+                if (typeof opts.changeCallback === "function") {
+                  return opts.changeCallback.apply(_this, [startDate, endDate, label]);
+                }
+              };
+            })(this));
           });
           _picker = el.data('daterangepicker');
           $scope.picker = _picker;
